@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.airobo.remotecontrol"
+    android:versionCode="10000"
+    android:versionName="1.0.0">
+
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="21" />
+
+    <uses-permission android:name="jp.co.sharp.android.permission.VOICEUI" />
+    <uses-permission android:name="jp.co.sharp.android.rb.projectormanager.permission.ACCESS_PROJECTOR" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="jp.co.sharp.android.rb.camera.permission.FACE_DETECTION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme.NoActionBar.Fullscreen">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="jp.co.sharp.android.rb.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="use_projector"
+                android:value="MainActivity" />
+        </activity>
+        <service
+            android:name=".common.RegisterScenarioService"
+            android:enabled="true"
+            android:exported="false"></service>
+        <receiver android:name=".common.RequestScenarioReceiver">
+            <intent-filter>
+                <action android:name="jp.co.sharp.android.voiceui.REQUEST_SCENARIO" />
+            </intent-filter>
+        </receiver>
+
+        <uses-library
+            android:name="jp.co.sharp.android.voiceui.framework"
+            android:required="true" />
+        <uses-library
+            android:name="jp.co.sharp.android.rb.projector.framework"
+            android:required="true" />
+        <uses-library
+            android:name="jp.co.sharp.android.rb.addressbook.framework"
+            android:required="true" />
+        <uses-library
+            android:name="jp.co.sharp.android.rb.cameralibrary"
+            android:required="true" />
+        <uses-library
+            android:name="jp.co.sharp.android.rb.rbdance.framework"
+            android:required="true" />
+    </application>
+
+</manifest>

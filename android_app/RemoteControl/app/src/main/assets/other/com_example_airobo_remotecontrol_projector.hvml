@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<hvml version="2.0">
+    <head>
+        <producer>com.example.airobo.remotecontrol</producer>
+        <description>プロジェクタを音声で起動するシナリオ</description>
+        <!--TODO プロジェクターを起動したい場合はscene_disableをscene_commonに変更してください -->
+        <scene value="com.example.airobo.remotecontrol.scene_disable" />
+        <version value="1.0" />
+        <situation priority="75" topic_id="start" trigger="user-word">${Lvcsr:Basic} include
+            [プロジェクト,プロジェクタ] and ${Lvcsr:Basic} include [開始,解し,会し,起動,移し,写し,映し]
+        </situation>
+    </head>
+    <body>
+        <topic id="start" listen="false">
+            <action index="1">
+                <speech>${resolver:speech_ok(${resolver:ok_id})}</speech>
+                <behavior id="${resolver:motion_ok(${resolver:ok_id})}" type="normal" />
+            </action>
+            <action index="2">
+                <control function="start_projector" target="com.example.airobo.remotecontrol" />
+            </action>
+        </topic>
+    </body>
+</hvml>

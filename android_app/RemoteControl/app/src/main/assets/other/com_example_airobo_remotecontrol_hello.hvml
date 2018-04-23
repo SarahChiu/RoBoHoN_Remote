@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<hvml version="2.0">
+    <head>
+        <producer>com.example.airobo.remotecontrol</producer>
+        <!-- TODO このシナリオの説明文を入力してください(プログラムに影響はありません) -->
+        <description>テンプレートシナリオ</description>
+        <scene value="com.example.airobo.remotecontrol.scene01" />
+        <version value="1.0" />
+        <situation priority="75" topic_id="reply" trigger="user-word">${Lvcsr:Basic} include
+            [おはよう,こんにちは,こんばんは]
+        </situation>
+        <accost priority="75" topic_id="say" word="com.example.airobo.remotecontrol.hello.say" />
+    </head>
+    <body>
+        <topic id="say" listen="false">
+            <action index="1">
+                <speech>${memory_p:com.example.airobo.remotecontrol.hello}</speech>
+                <behavior id="assign" type="normal" />
+            </action>
+        </topic>
+        <topic id="reply" listen="false">
+            <action index="1">
+                <speech>お話してくれて、ありがとう！これから、僕にいろんなことを教えてね！！</speech>
+                <behavior id="assign" type="normal" />
+            </action>
+        </topic>
+    </body>
+</hvml>

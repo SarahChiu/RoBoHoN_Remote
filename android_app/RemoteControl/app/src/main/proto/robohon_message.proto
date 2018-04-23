@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.robohon_message";
+option java_outer_classname = "RoBoHoNMessageProto";
+option objc_class_prefix = "RBH";
+
+package robohonmessage;
+
+service RoBoHoNMessage {
+    rpc RequestInfo (robohon) returns (desktop) {}
+}
+
+message robohon {
+    string info_type = 1;
+}
+
+message desktop {
+    string sentence = 1;
+}
