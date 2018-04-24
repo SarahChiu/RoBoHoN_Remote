@@ -26,7 +26,11 @@ class Servicer(robohon_message_pb2_grpc.RoBoHoNMessageServicer):
             sentence = 'empty'
         else:
             sentence = input_s
-            input_s = None
+            #Wait for RoBoHoN to send back request "Finish"
+            if request.info_type == "Finish":
+                input_s = None
+            else:
+                input_s = 'empty'
         return robohon_message_pb2.desktop(sentence=sentence)
 
 def GetInfo():
@@ -35,12 +39,8 @@ def GetInfo():
     if args.mode == 'manual': 
         input_s = raw_input('Please enter the sentence: ')
     elif args.mode == 'read_file' and not f.tell() == os.fstat(f.fileno()).st_size:
-        input_s = f.readline()
-        #TODO: Let RoBoHoN retrun something after it finishes speaking
-        time.sleep(3.0)
-        raw_input('Please press enter after RoBoHoN finishes speaking to continue: ')
-    else:
-        input_s = ''
+        if input_s == None:
+            input_s = f.readline()
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))

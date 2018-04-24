@@ -17,6 +17,9 @@
                 <speech>${memory_p:com.example.airobo.remotecontrol.hello}</speech>
                 <behavior id="assign" type="normal" />
             </action>
+            <action index="2">
+                <control function="finish_say" target="com.example.airobo.remotecontrol" />
+            </action>
         </topic>
         <topic id="reply" listen="false">
             <action index="1">

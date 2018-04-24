@@ -106,6 +106,8 @@ public class MainActivity extends Activity implements MainActivityVoiceUIListene
     private Button disconnect_button;
     private Thread t;
 
+    private String requestInfo; //Request sent to server
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,7 +148,7 @@ public class MainActivity extends Activity implements MainActivityVoiceUIListene
         connect_button = (Button)findViewById(R.id.connect);
         disconnect_button = (Button)findViewById(R.id.disconnect);
         disconnect_button.setEnabled(false);
-
+        requestInfo = "sentence";
         connect_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,6 +161,7 @@ public class MainActivity extends Activity implements MainActivityVoiceUIListene
                 duration.setEnabled(false);
                 connect_button.setEnabled(false);
                 disconnect_button.setEnabled(true);
+
                 //Thread for asking information from the desktop
                 t = new Thread() {
                     @Override
@@ -170,14 +173,11 @@ public class MainActivity extends Activity implements MainActivityVoiceUIListene
                                     @Override
                                     public void run() {
                                         String speech = getDesktopInfo(host_ip);
-                                        if (mVoiceUIManager != null && !speech.equals("") && !speech.equals("empty")) {
+                                        if (mVoiceUIManager != null && !speech.equals("empty")) {
                                             VoiceUIVariableListHelper helper = new VoiceUIVariableListHelper();
                                             VoiceUIVariableUtil.setVariableData(mVoiceUIManager, ScenarioDefinitions.MEM_SPEECH, speech);
                                             helper.addAccost(ScenarioDefinitions.ACC_HELLO);
                                             VoiceUIManagerUtil.updateAppInfo(mVoiceUIManager, helper.getVariableList(), true);
-                                        }
-                                        else if (speech.equals("")) {
-                                            t.interrupt();
                                         }
                                     }
                                 });
@@ -303,6 +303,10 @@ public class MainActivity extends Activity implements MainActivityVoiceUIListene
                 //if(!isProjected) {
                 //    startService(getIntentForProjector());
                 //}
+                break;
+            case ScenarioDefinitions.FUNC_FINISH_SAY:
+                //Return "Finish" to server
+                requestInfo = "Finish";
                 break;
             default:
                 break;
@@ -611,7 +615,8 @@ public class MainActivity extends Activity implements MainActivityVoiceUIListene
         }
     }
 
-    private static class GetDesktopInfoRunnable implements GrpcRunnable {
+    //Change to non-static function
+    private class GetDesktopInfoRunnable implements GrpcRunnable {
         @Override
         public String run(RoBoHoNMessageGrpc.RoBoHoNMessageBlockingStub blockingStub, RoBoHoNMessageGrpc.RoBoHoNMessageStub asyncStub)
                 throws Exception {
@@ -621,7 +626,10 @@ public class MainActivity extends Activity implements MainActivityVoiceUIListene
         /** Blocking unary call example. Calls getFeature and prints the response. */
         private String execMotion(RoBoHoNMessageGrpc.RoBoHoNMessageBlockingStub blockingStub)
                 throws StatusRuntimeException {
-            robohon request = robohon.newBuilder().setInfoType("Sentence").build();
+            robohon request = robohon.newBuilder().setInfoType(requestInfo).build();
+            if (requestInfo.equals("Finish")) {
+                requestInfo = "Sentence";
+            }
             desktop info = blockingStub.requestInfo(request);
             //Return the information requested
             return info.getSentence();

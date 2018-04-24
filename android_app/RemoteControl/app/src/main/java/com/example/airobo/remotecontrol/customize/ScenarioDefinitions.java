@@ -58,6 +58,7 @@ public class ScenarioDefinitions {
      * accost名：こんにちは発話実行.
      */
     public static final String ACC_HELLO = ScenarioDefinitions.PACKAGE + ".hello.say";
+    public static final String FUNC_FINISH_SAY = "finish_say";
 
     //Speech accost and variable
     //public static final String SPEECH = ScenarioDefinitions.PACKAGE + ".accost.speech";
