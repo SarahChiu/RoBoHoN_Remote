@@ -4,18 +4,27 @@ RoBoHoN\_Remote is a project to control RoBoHoN's speech remotely through WiFi. 
 
 ## Getting Started
 
-1. Clone the project and install the android app RemoteContol into RoBoHoN.
-2. Go to server folder, run `python server.py` for the manually typing mode or `python server.py --mode read_file --file_name sentences.txt` for file reading mode (in Chinese).
-3. Execute the app RemoteControl on RoBoHoN, set the ip (default: 127.0.0.1), port (default: 50051) and transmission duration (default: 5000 ms) for the server.
-4. Press the button CONNECT, and the server part will output "Got a request type: sentence", which means the connection is built successfully.
-5. If running manually typing mode, type any sentence and press enter, and then RoBoHoN will speak what you just typed.
-6. To disconnect, first press several enter until server part do not appear "Got a request type: sentence" anymore, and then press the button DISCONNECT on RoBoHoN. 
-   (This part will be fixed later to avoid this inconvenient disconnecting method.)
-
 ### Prerequisites
 
 1. RoBoHoN robot
 2. python-grpc v1.10.0 (see [here](https://grpc.io/docs/quickstart/python.html) for the installation and more information)
+
+### Run the Program
+
+First clone the project and install the android app RemoteControl into RoBoHoN.
+
+1. Manually Typing Mode
+(1) Go to folder [server](server), and run `python server.py`.
+(2) Execute the app RemoteControl on RoBoHoN, set the ip (default: 127.0.0.1), port (default: 50051) for the server and transmission duration (default: 1000 ms).
+(3) Press the button CONNECT, and you can start typing any sentence and press enter, then RoBoHoN will speak what you just typed.
+
+2. File Reading Mode
+(1) Go to folder [server](server), and run `python server.py --mode read_file --file_name sentences.txt` for reading test file written in Chinese.
+(2) Execute the app RemoteControl on RoBoHoN, set the ip (default: 127.0.0.1), port (default: 50051) for the server and transmission duration (default: 1000 ms).
+(3) Press the button CONNECT, and RoBoHoN will start reading the first sentence in the file.
+(4) After the server part shows "Please press enter after RoBoHoN finishes speaking to continue: " and RoBoHoN finishes speaking, press enter to continue.
+
+3. To disconnect, simply press the button DISCONNECT on RoBoHoN and shut dowm the server if you are not going to connect anymore.
 
 ## License
 

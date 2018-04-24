@@ -21,20 +21,26 @@ if args.mode == 'read_file':
 class Servicer(robohon_message_pb2_grpc.RoBoHoNMessageServicer):
     def RequestInfo(self, request, context):
         #Get info to send
-        print('Got a request type: ', request.info_type)
-        if args.mode == 'manual':
-            sentence = GetInfo()
-        elif args.mode == 'read_file' and not f.tell() == os.fstat(f.fileno()).st_size:
-            sentence = f.readline()
+        global input_s
+        if input_s == None:
+            sentence = 'empty'
         else:
-            sentence = ''
-        print('Sentence got: ', sentence)
+            sentence = input_s
+            input_s = None
         return robohon_message_pb2.desktop(sentence=sentence)
 
 def GetInfo():
     #Ask for sentence
-    sentence = raw_input('Please enter the sentence: ')
-    return sentence
+    global input_s
+    if args.mode == 'manual': 
+        input_s = raw_input('Please enter the sentence: ')
+    elif args.mode == 'read_file' and not f.tell() == os.fstat(f.fileno()).st_size:
+        input_s = f.readline()
+        #TODO: Let RoBoHoN retrun something after it finishes speaking
+        time.sleep(3.0)
+        raw_input('Please press enter after RoBoHoN finishes speaking to continue: ')
+    else:
+        input_s = ''
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
@@ -44,11 +50,14 @@ def serve():
 
     try:
         while True:
-            time.sleep(_ONE_DAY_IN_SECONDS)
+            GetInfo()
     except KeyboardInterrupt:
         server.stop(0)
         if not f == None:
             f.close()
 
 if __name__ == '__main__':
+    global input_s
+    input_s = None
+
     serve()

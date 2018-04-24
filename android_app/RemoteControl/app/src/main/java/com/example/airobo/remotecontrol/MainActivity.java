@@ -170,13 +170,13 @@ public class MainActivity extends Activity implements MainActivityVoiceUIListene
                                     @Override
                                     public void run() {
                                         String speech = getDesktopInfo(host_ip);
-                                        if (mVoiceUIManager != null && speech != "") {
+                                        if (mVoiceUIManager != null && !speech.equals("") && !speech.equals("empty")) {
                                             VoiceUIVariableListHelper helper = new VoiceUIVariableListHelper();
                                             VoiceUIVariableUtil.setVariableData(mVoiceUIManager, ScenarioDefinitions.MEM_SPEECH, speech);
                                             helper.addAccost(ScenarioDefinitions.ACC_HELLO);
                                             VoiceUIManagerUtil.updateAppInfo(mVoiceUIManager, helper.getVariableList(), true);
                                         }
-                                        else if (speech == "") {
+                                        else if (speech.equals("")) {
                                             t.interrupt();
                                         }
                                     }
@@ -201,7 +201,7 @@ public class MainActivity extends Activity implements MainActivityVoiceUIListene
         disconnect_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //t.interrupt();
+                t.interrupt();
                 channel.shutdown();
                 disconnect_button.setEnabled(false);
                 host_ip.setEnabled(true);
