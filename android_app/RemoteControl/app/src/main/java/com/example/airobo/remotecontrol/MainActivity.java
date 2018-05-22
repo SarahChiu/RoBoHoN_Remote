@@ -586,7 +586,7 @@ public class MainActivity extends Activity implements MainActivityVoiceUIListene
                 e.printStackTrace(pw);
                 pw.flush();
                 Log.println(Log.INFO, "Result", "Failed... :\n" + sw);
-                return "錯誤";
+                return " ";
             }
         }
 

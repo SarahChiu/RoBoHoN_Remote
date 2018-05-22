@@ -23,7 +23,12 @@ First clone the project and install the android app RemoteControl into RoBoHoN.
 * Execute the app RemoteControl on RoBoHoN, set the ip (default: 127.0.0.1), port (default: 50051) for the server and transmission duration (default: 1000 ms).
 * Press the button CONNECT, and RoBoHoN will start reading the sentences in the file.
 
-3. To disconnect, simply press the button DISCONNECT on RoBoHoN and shut dowm the server if you are not going to connect anymore.
+3. URL Parsing Mode
+* Go to folder [server](server), and run `python server.py --mode url --url http://technews.tw/2018/05/22/nvidia-new-ai-technique-helps-robots-work-alongside-humans/` for reading the article on the Internet.
+* Execute the app RemoteControl on RoBoHoN, set the ip (default: 127.0.0.1), port (default: 50051) for the server and transmission duration (default: 1000 ms).
+* Press the button CONNECT, and RoBoHoN will start reading the sentences of the article.
+
+4. To disconnect, simply press the button DISCONNECT on RoBoHoN and shut down the server if you are not going to connect anymore.
 
 ## License
 
