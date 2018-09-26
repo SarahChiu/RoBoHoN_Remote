@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.util.Log;
 import android.view.View;
@@ -107,6 +108,8 @@ public class MainActivity extends Activity implements MainActivityVoiceUIListene
     private Thread t;
 
     private String requestInfo; //Request sent to server
+
+    private Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -307,6 +310,19 @@ public class MainActivity extends Activity implements MainActivityVoiceUIListene
             case ScenarioDefinitions.FUNC_FINISH_SAY:
                 //Return "Finish" to server
                 requestInfo = "Finish";
+                break;
+            case "speechRecog":
+                Log.d(TAG, "Speech Detected!");
+
+                final String lvcsr = VoiceUIVariableUtil.getVariableData(variables, "Lvcsr_BasicText");
+
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.println(Log.INFO, "Result", "Recognize: " + lvcsr);
+                        requestInfo = lvcsr;
+                    }
+                });
                 break;
             default:
                 break;
@@ -627,7 +643,7 @@ public class MainActivity extends Activity implements MainActivityVoiceUIListene
         private String execMotion(RoBoHoNMessageGrpc.RoBoHoNMessageBlockingStub blockingStub)
                 throws StatusRuntimeException {
             robohon request = robohon.newBuilder().setInfoType(requestInfo).build();
-            if (requestInfo.equals("Finish")) {
+            if (!requestInfo.equals("Sentence")) {
                 requestInfo = "Sentence";
             }
             desktop info = blockingStub.requestInfo(request);

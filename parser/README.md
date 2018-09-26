@@ -5,6 +5,7 @@
 ### Prerequisites
 
 1. Python-Goose - Article Extractor (see [here](https://github.com/grangier/python-goose) for the installation and more information) 
+2. Google Search API (see [here](https://github.com/abenassi/Google-Search-API) for the installation and more information)
 
 ### Languages Supported
 
@@ -13,4 +14,11 @@
 ### Run the Testing Program
 
 Run the testing program that will parse the article from the input url, divide it into sentences, and write those sentences to an output file.
-`>>> python art2sen.py --url http://technews.tw/2018/05/22/nvidia-new-ai-technique-helps-robots-work-alongside-humans/ --out_file output.txt`
+```
+>>> python art2sen.py --url http://technews.tw/2018/05/22/nvidia-new-ai-technique-helps-robots-work-alongside-humans/ --out_file output.txt
+```
+
+### News Source
+
+We fetch our news from the RSS feeds provided by Yahoo.
+1. Internation news: https://tw.news.yahoo.com/rss/world
